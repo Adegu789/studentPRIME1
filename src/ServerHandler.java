@@ -11,6 +11,9 @@ public class ServerHandler implements HttpHandler {
 	public void handle(HttpExchange httpExchange) {
 		System.out.println("Reached handle");
 		
+		String sInput = httpExchange.getRequestURI().toString();
+		System.out.println(sInput);
+		
 		 handleResponse(httpExchange);
 		
 	}
@@ -18,9 +21,11 @@ public class ServerHandler implements HttpHandler {
 	
 	
 	 private void handleResponse(HttpExchange httpExchange )  {
-		 DbPRIME1 conn= new DbPRIME1();
-		 conn.dbConnector(); 
-		 String response=conn.getStudents();
+		 webviewer web= new webviewer();
+		 web.connect(); 
+		 String resp=web.readstudents();
+		 web.close();
+		 
 		 
 		 try {
 			 OutputStream outputStream = httpExchange.getResponseBody();
@@ -28,20 +33,21 @@ public class ServerHandler implements HttpHandler {
 			  createHtml.append("<html>")
 			  .append("<body>")
 			  .append("<h1>")
-			  .append("Hello ")
+			  .append("Students Records ")
 			  .append("</h1>")
-			  .append(response)
+			  .append(resp)
 			  .append("</body>")
 			  .append("</html>");
 			  // encode HTML content 
 			  String htmlResponse = createHtml.toString();
 			  // this line is a must
 			  httpExchange.sendResponseHeaders(200, htmlResponse.length());
+			  
 			  outputStream.write(htmlResponse.getBytes());
 			  outputStream.flush();
 			  outputStream.close();
-		 }catch (IOException e){
-			 System.out.println("SERver has an error, " + e);
+		 } catch (IOException ex){
+			 System.out.println("SERver has an error, " + ex);
 			 
 		 }
 

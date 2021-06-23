@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 
 public class DbPRIME1 {
 
-	      Connection conn = null;
-	      public void   dbConnector() {
+	      static Connection conn = null;
+	      public static Connection   dbConnector() {
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	        conn = DriverManager
@@ -22,28 +22,16 @@ public class DbPRIME1 {
 	        
 	      
 	      }
-		
+		return conn;
+	
 	      
 	   
 	
 
 }
-	      
-	      public String getStudents() {
-	  		String query = "select * from students";
-	  		String showResponse="<p><table>";
-	  		try {
-	  			Statement statement = (Statement) conn.createStatement();
-	  			ResultSet resultSet = ((java.sql.Statement) statement).executeQuery(query);
-	  			while(resultSet.next()) {
-	  				showResponse += "<tr><td>"+ resultSet.getString("student_name")+ "</td></tr>";
-	  				
-	  			}
-	  			showResponse += "<table></p>";
-	  		}catch(SQLException e) {
-	  			System.out.println("Sql connection error" + e);
-	  			
-	  		}
-	  		return showResponse;
-	  	}
+		public String getStudents() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }
+	  
